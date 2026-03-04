@@ -7,36 +7,35 @@ export default function Contact() {
   const [result, setResult] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  const sendEmail = async (e) => {
+ const sendEmail = async (e) => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
-  const userEmail = formData.get("user_email"); // safer
   const name = formData.get("name");
+  const user_email = formData.get("user_email");
   const message = formData.get("message");
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailRegex.test(userEmail)) {
+  if (!emailRegex.test(user_email)) {
     setEmailError("Please enter a valid email address 📧");
     return;
   }
-
   setEmailError("");
   setResult("Sending...");
 
   try {
-    await emailjs.sendForm(
+    const res = await emailjs.sendForm(
       import.meta.env.VITE_EMAILJS_SERVICE_ID,
       import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
       e.target,
       import.meta.env.VITE_EMAILJS_PUBLIC_KEY
     );
 
+    console.log("EmailJS response:", res);
     setResult("Message sent successfully ✅");
     e.target.reset();
   } catch (err) {
-    console.error(err);
+    console.error("EmailJS error:", err);
     setResult("Failed to send message ❌");
   }
 };
