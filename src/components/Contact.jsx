@@ -4,25 +4,26 @@ import { SiLeetcode } from "react-icons/si";
 
 export default function Contact() {
   const [result, setResult] = useState("");
-  const [mobileError, setMobileError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const sendEmail = async (e) => {
     e.preventDefault();
 
-    const mobile = e.target.mobile.value.trim();
-    const mobileRegex = /^[6-9]\d{9}$/;
+    const email = e.target.email.value.trim();
+    // Simple email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!mobileRegex.test(mobile)) {
-      setMobileError("Please enter a valid 10-digit Indian mobile number 📱");
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address 📧");
       return;
     }
 
-    setMobileError("");
+    setEmailError("");
     setResult("Sending...");
 
     const formData = {
       name: e.target.name.value,
-      mobile: e.target.mobile.value,
+      email: e.target.email.value,
       message: e.target.message.value,
     };
 
@@ -61,15 +62,15 @@ export default function Contact() {
           <label className="mb-2">Name</label>
           <input type="text" name="name" required placeholder="Your name" className="w-full mb-6 px-4 py-3 rounded bg-black/60" />
 
-          <label className="mb-2">Mobile</label>
+          <label className="mb-2">Email</label>
           <input
-            type="text"
-            name="mobile"
+            type="email"
+            name="email"
             required
-            placeholder="Your mobile number"
-            className={`w-full mb-2 px-4 py-3 rounded bg-black/60 ${mobileError ? "border border-red-500" : ""}`}
+            placeholder="Your email"
+            className={`w-full mb-2 px-4 py-3 rounded bg-black/60 ${emailError ? "border border-red-500" : ""}`}
           />
-          {mobileError && <p className="text-red-500 text-sm mb-4">{mobileError}</p>}
+          {emailError && <p className="text-red-500 text-sm mb-4">{emailError}</p>}
 
           <label className="mb-2">Message</label>
           <textarea name="message" rows="5" required placeholder="Your message" className="w-full mb-8 px-4 py-3 rounded bg-black/60"></textarea>
