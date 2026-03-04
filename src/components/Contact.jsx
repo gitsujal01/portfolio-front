@@ -1,4 +1,5 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 
@@ -20,28 +21,16 @@ export default function Contact() {
     setEmailError("");
     setResult("Sending...");
 
-  const formData = {
-  name: e.target.name.value,
-  user_email: e.target.email.value, //user email
-  message: e.target.message.value,
-};
-
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/sendEmail`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        e.target,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setResult("Message sent successfully ✅");
-        e.target.reset();
-      } else {
-        console.error(data.error);
-        setResult("Failed to send message ❌");
-      }
+      setResult("Message sent successfully ✅");
+      e.target.reset();
     } catch (err) {
       console.error(err);
       setResult("Failed to send message ❌");
@@ -55,7 +44,7 @@ export default function Contact() {
       </h2>
 
       <div className="grid md:grid-cols-2 gap-12">
-        {/* ===== FORM ===== */}
+        {/* Form */}
         <form onSubmit={sendEmail} className="bg-white/5 backdrop-blur-md rounded-2xl p-10 border border-white/10 flex flex-col">
           <h3 className="text-2xl font-semibold mb-8">Send a Message</h3>
 
@@ -63,13 +52,7 @@ export default function Contact() {
           <input type="text" name="name" required placeholder="Your name" className="w-full mb-6 px-4 py-3 rounded bg-black/60" />
 
           <label className="mb-2">Email</label>
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder="Your email address"
-            className={`w-full mb-2 px-4 py-3 rounded bg-black/60 ${emailError ? "border border-red-500" : ""}`}
-          />
+          <input type="email" name="user_email" required placeholder="Your email" className={`w-full mb-2 px-4 py-3 rounded bg-black/60 ${emailError ? "border border-red-500" : ""}`} />
           {emailError && <p className="text-red-500 text-sm mb-4">{emailError}</p>}
 
           <label className="mb-2">Message</label>
@@ -82,7 +65,7 @@ export default function Contact() {
           {result && <p className="mt-4 text-center">{result}</p>}
         </form>
 
-        {/* ===== CONTACT INFO ===== */}
+        {/* Contact Info */}
         <div className="flex flex-col items-center justify-center gap-8 text-center">
           <div className="flex items-center gap-4"><FaEnvelope /> sujallokhande23@gmail.com</div>
           <div className="flex items-center gap-4"><FaPhoneAlt /> +91 7987445832</div>
