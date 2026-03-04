@@ -9,11 +9,10 @@ export default function Contact() {
   const sendEmail = async (e) => {
     e.preventDefault();
 
-    const email = e.target.email.value.trim();
-    // Simple email regex
+    const userEmail = e.target.email.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(userEmail)) {
       setEmailError("Please enter a valid email address 📧");
       return;
     }
@@ -21,11 +20,11 @@ export default function Contact() {
     setEmailError("");
     setResult("Sending...");
 
-    const formData = {
-      name: e.target.name.value,
-      email: e.target.email.value,
-      message: e.target.message.value,
-    };
+  const formData = {
+  name: e.target.name.value,
+  user_email: e.target.email.value, //user email
+  message: e.target.message.value,
+};
 
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/sendEmail`, {
@@ -56,6 +55,7 @@ export default function Contact() {
       </h2>
 
       <div className="grid md:grid-cols-2 gap-12">
+        {/* ===== FORM ===== */}
         <form onSubmit={sendEmail} className="bg-white/5 backdrop-blur-md rounded-2xl p-10 border border-white/10 flex flex-col">
           <h3 className="text-2xl font-semibold mb-8">Send a Message</h3>
 
@@ -67,7 +67,7 @@ export default function Contact() {
             type="email"
             name="email"
             required
-            placeholder="Your email"
+            placeholder="Your email address"
             className={`w-full mb-2 px-4 py-3 rounded bg-black/60 ${emailError ? "border border-red-500" : ""}`}
           />
           {emailError && <p className="text-red-500 text-sm mb-4">{emailError}</p>}
@@ -82,6 +82,7 @@ export default function Contact() {
           {result && <p className="mt-4 text-center">{result}</p>}
         </form>
 
+        {/* ===== CONTACT INFO ===== */}
         <div className="flex flex-col items-center justify-center gap-8 text-center">
           <div className="flex items-center gap-4"><FaEnvelope /> sujallokhande23@gmail.com</div>
           <div className="flex items-center gap-4"><FaPhoneAlt /> +91 7987445832</div>
