@@ -1,26 +1,38 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaJava, FaReact, FaDatabase } from "react-icons/fa";
 import { SiSpringboot, SiMysql, SiHibernate } from "react-icons/si";
 
 export default function About() {
-  const [cards, setCards] = useState([]);
-  const [tools, setTools] = useState([]);
+  // ===== Static About Cards =====
+  const [cards] = useState([
+    {
+      id: 1,
+      title: "Backend Developer",
+      description: "I build scalable backend APIs using Java, Spring Boot, and SQL."
+    },
+    {
+      id: 2,
+      title: "Full-Stack Developer",
+      description: "I develop full-stack apps with React, Spring Boot, and REST APIs."
+    },
+    {
+      id: 3,
+      title: "Problem Solver",
+      description: "I enjoy solving system design and algorithmic problems with practical constraints."
+    }
+  ]);
 
-  useEffect(() => {
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-     // About cards
-      fetch(`${BACKEND_URL}/about`)
-      .then((res) => res.json())
-      .then((data) => setCards(data))
-      .catch((err) => console.log("About error", err));
+  // ===== Static Tools =====
+  const [tools] = useState([
+    { id: 1, name: "Java" },
+    { id: 2, name: "Spring Boot" },
+    { id: 3, name: "MySQL" },
+    { id: 4, name: "Hibernate" },
+    { id: 5, name: "React" },
+    { id: 6, name: "Database" }
+  ]);
 
-    // Skills / Tools
-      fetch(`${BACKEND_URL}/skills`)
-      .then((res) => res.json())
-      .then((data) => setTools(data))
-      .catch((err) => console.log("Skills error", err));
-  }, []);
-
+  // ===== Icon Mapper =====
   const getIcon = (name) => {
     switch (name) {
       case "Java":
@@ -43,8 +55,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   return (
     <section
       id="about"
-      className="w-full px-[12%] py-16 scroll-mt-20 
-                 bg-gradient-to-b from-[#140021] to-[#1a0033] text-white"
+      className="w-full px-[12%] py-16 scroll-mt-20 bg-gradient-to-b from-[#140021] to-[#1a0033] text-white"
     >
       {/* Heading */}
       <h4 className="text-center mb-2 text-lg tracking-widest text-purple-300">
@@ -70,11 +81,8 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
         {cards.map((item) => (
           <li
             key={item.id}
-            className="bg-white/5 backdrop-blur-md 
-                       border border-purple-400/40 
-                       rounded-2xl p-8 
-                       hover:scale-105 transition duration-300
-                       hover:border-purple-400"
+            className="bg-white/5 backdrop-blur-md border border-purple-400/40 rounded-2xl p-8 
+                       hover:scale-105 transition duration-300 hover:border-purple-400"
           >
             <h3 className="mb-4 text-xl font-semibold text-purple-300">
               {item.title}
@@ -95,12 +103,9 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
         {tools.map((tool) => (
           <li
             key={tool.id}
-            className="flex flex-col items-center justify-center gap-2
-                       px-6 py-4 rounded-xl
-                       bg-white/10 backdrop-blur
-                       border border-purple-400/40
-                       hover:bg-purple-500/20
-                       hover:scale-110 transition"
+            className="flex flex-col items-center justify-center gap-2 px-6 py-4 rounded-xl
+                       bg-white/10 backdrop-blur border border-purple-400/40
+                       hover:bg-purple-500/20 hover:scale-110 transition"
           >
             <span className="text-2xl text-purple-300">
               {getIcon(tool.name)}
