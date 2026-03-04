@@ -3,10 +3,10 @@ export default function Header() {
     <header className="w-11/12 max-w-3xl text-center mx-auto h-screen flex flex-col items-center justify-center gap-4">
       {/* Profile photo */}
       <img
-  src="./assets/Sujal_photo.jpg"
-  alt="Sujal Lokhande"
-  className="w-48 h-48 rounded-full object-cover object-[30%_25%]"
-/>
+        src="./assets/Sujal_photo.jpg"
+        alt="Sujal Lokhande"
+        className="w-48 h-48 rounded-full object-cover object-[30%_25%]"
+      />
 
       {/* Greeting */}
       <h3 className="flex items-end gap-2 text-xl md:text-2xl mb-3 font-Ovo">
@@ -24,7 +24,7 @@ export default function Header() {
         I build reliable backend systems using Java and modern database technologies.
       </p>
 
-      {/* Action buttons: Contact & Resume */}
+      {/* Action buttons */}
       <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
         {/* Contact Button */}
         <a
@@ -46,5 +46,5 @@ export default function Header() {
         </a>
       </div>
     </header>
-  )
+  );
 }
