@@ -10,7 +10,9 @@ export default function Contact() {
 
   // Initialize EmailJS
   useEffect(() => {
-    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    emailjs.init({
+      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+    });
   }, []);
 
   const sendEmail = async (e) => {
@@ -29,35 +31,46 @@ export default function Contact() {
     setEmailError("");
     setResult("Sending...");
 
-try {
-const res = await emailjs.sendForm(
-  import.meta.env.VITE_EMAILJS_SERVICE_ID,
-  import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-  e.target,
-  import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-);
+    try {
 
-  console.log("EmailJS response:", res);
-  setResult("Message sent successfully ✅");
-  e.target.reset();
+      const res = await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        e.target,
+        {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
+      );
 
-} catch (err) {
-  console.error("EmailJS error:", err);
-  setResult("Failed to send message ❌");
-}};
+      console.log("EmailJS response:", res);
+
+      setResult("Message sent successfully ✅");
+      e.target.reset();
+
+    } catch (err) {
+
+      console.error("EmailJS error:", err);
+      setResult("Failed to send message ❌");
+
+    }
+  };
 
   return (
     <section id="contact" className="w-full px-[10%] py-20 bg-black text-white">
+
       <h2 className="text-center text-5xl font-bold mb-12">
         Get In <span className="text-cyan-400">Touch</span>
       </h2>
 
       <div className="grid md:grid-cols-2 gap-12">
 
+        {/* Contact Form */}
+
         <form
           onSubmit={sendEmail}
           className="bg-white/5 backdrop-blur-md rounded-2xl p-10 border border-white/10 flex flex-col"
         >
+
           <h3 className="text-2xl font-semibold mb-8">Send a Message</h3>
 
           <label className="mb-2">Name</label>
@@ -95,28 +108,38 @@ const res = await emailjs.sendForm(
 
           <button
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 py-3 rounded font-semibold"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 py-3 rounded font-semibold transition"
           >
             Send Message
           </button>
 
-          {result && <p className="mt-4 text-center">{result}</p>}
+          {result && (
+            <p className="mt-4 text-center">{result}</p>
+          )}
+
         </form>
 
+        {/* Contact Info */}
+
         <div className="flex flex-col items-center justify-center gap-8 text-center">
+
           <div className="flex items-center gap-4">
-            <FaEnvelope /> sujallokhande23@gmail.com
+            <FaEnvelope />
+            sujallokhande23@gmail.com
           </div>
 
           <div className="flex items-center gap-4">
-            <FaPhoneAlt /> +91 7987445832
+            <FaPhoneAlt />
+            +91 7987445832
           </div>
 
           <div className="flex items-center gap-4">
-            <FaMapMarkerAlt /> Pune, India
+            <FaMapMarkerAlt />
+            Pune, India
           </div>
 
           <div className="flex gap-6 justify-center mt-4">
+
             <a
               href="https://github.com/gitsujal01"
               target="_blank"
@@ -143,11 +166,13 @@ const res = await emailjs.sendForm(
             >
               <SiLeetcode /> LeetCode
             </a>
+
           </div>
+
         </div>
 
       </div>
+
     </section>
-  );  
-  
+  );
 }
