@@ -29,22 +29,24 @@ export default function Contact() {
     setEmailError("");
     setResult("Sending...");
 
-    try {
-      const res = await emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        e.target
-      );
-
-      console.log("EmailJS response:", res);
-      setResult("Message sent successfully ✅");
-      e.target.reset();
-
-    } catch (err) {
-      console.error("EmailJS error:", err);
-      setResult("Failed to send message ❌");
+try {
+  const res = await emailjs.sendForm(
+    import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+    e.target,
+    {
+      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
     }
-  };
+  );
+
+  console.log("EmailJS response:", res);
+  setResult("Message sent successfully ✅");
+  e.target.reset();
+
+} catch (err) {
+  console.error("EmailJS error:", err);
+  setResult("Failed to send message ❌");
+}};
 
   return (
     <section id="contact" className="w-full px-[10%] py-20 bg-black text-white">
