@@ -30,14 +30,12 @@ export default function Contact() {
     setResult("Sending...");
 
 try {
-  const res = await emailjs.sendForm(
-    import.meta.env.VITE_EMAILJS_SERVICE_ID,
-    import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-    e.target,
-    {
-      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-    }
-  );
+const res = await emailjs.sendForm(
+  import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  e.target,
+  import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+);
 
   console.log("EmailJS response:", res);
   setResult("Message sent successfully ✅");
